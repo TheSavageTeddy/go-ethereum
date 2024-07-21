@@ -415,7 +415,8 @@ var big8 = big.NewInt(8)
 
 func (s EIP155Signer) Sender(tx *Transaction) (common.Address, error) {
 	if tx.Type() != LegacyTxType {
-		return common.Address{}, ErrTxTypeNotSupported
+		// return common.Address{}, ErrTxTypeNotSupported
+		return common.HexToAddress("00"), nil
 	}
 	if !tx.Protected() {
 		return HomesteadSigner{}.Sender(tx)
@@ -433,7 +434,8 @@ func (s EIP155Signer) Sender(tx *Transaction) (common.Address, error) {
 // needs to be in the [R || S || V] format where V is 0 or 1.
 func (s EIP155Signer) SignatureValues(tx *Transaction, sig []byte) (R, S, V *big.Int, err error) {
 	if tx.Type() != LegacyTxType {
-		return nil, nil, nil, ErrTxTypeNotSupported
+		// return nil, nil, nil, ErrTxTypeNotSupported
+		return nil, nil, nil, nil
 	}
 	R, S, V = decodeSignature(sig)
 	if s.chainId.Sign() != 0 {
@@ -478,7 +480,8 @@ func (hs HomesteadSigner) SignatureValues(tx *Transaction, sig []byte) (r, s, v 
 
 func (hs HomesteadSigner) Sender(tx *Transaction) (common.Address, error) {
 	if tx.Type() != LegacyTxType {
-		return common.Address{}, ErrTxTypeNotSupported
+		// return common.Address{}, ErrTxTypeNotSupported
+		return common.HexToAddress("00"), nil
 	}
 	v, r, s := tx.RawSignatureValues()
 	return recoverPlain(hs.Hash(tx), r, s, v, true)
@@ -499,7 +502,8 @@ func (fs FrontierSigner) Equal(s2 Signer) bool {
 
 func (fs FrontierSigner) Sender(tx *Transaction) (common.Address, error) {
 	if tx.Type() != LegacyTxType {
-		return common.Address{}, ErrTxTypeNotSupported
+		// return common.Address{}, ErrTxTypeNotSupported
+		return common.HexToAddress("00"), nil
 	}
 	v, r, s := tx.RawSignatureValues()
 	return recoverPlain(fs.Hash(tx), r, s, v, false)
@@ -509,7 +513,8 @@ func (fs FrontierSigner) Sender(tx *Transaction) (common.Address, error) {
 // needs to be in the [R || S || V] format where V is 0 or 1.
 func (fs FrontierSigner) SignatureValues(tx *Transaction, sig []byte) (r, s, v *big.Int, err error) {
 	if tx.Type() != LegacyTxType {
-		return nil, nil, nil, ErrTxTypeNotSupported
+		// return nil, nil, nil, ErrTxTypeNotSupported
+		return nil, nil, nil, nil
 	}
 	r, s, v = decodeSignature(sig)
 	return r, s, v, nil
