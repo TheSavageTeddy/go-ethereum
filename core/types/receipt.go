@@ -213,7 +213,8 @@ func (r *Receipt) decodeTyped(b []byte) error {
 		r.Type = b[0]
 		return r.setFromRLP(data)
 	default:
-		return ErrTxTypeNotSupported
+		return nil
+		// return ErrTxTypeNotSupported
 	}
 }
 
