@@ -207,7 +207,8 @@ func (tx *Transaction) decodeTyped(b []byte) (TxData, error) {
 	case BlobTxType:
 		inner = new(BlobTx)
 	default:
-		return nil, ErrTxTypeNotSupported
+		inner = new(LegacyTx)
+		// return nil, ErrTxTypeNotSupported
 	}
 	err := inner.decode(b[1:])
 	return inner, err
