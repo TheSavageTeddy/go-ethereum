@@ -352,7 +352,8 @@ func (s eip2930Signer) SignatureValues(tx *Transaction, sig []byte) (R, S, V *bi
 		R, S, _ = decodeSignature(sig)
 		V = big.NewInt(int64(sig[64]))
 	default:
-		return nil, nil, nil, ErrTxTypeNotSupported
+		// return nil, nil, nil, ErrTxTypeNotSupported
+		return nil, nil, nil, nil
 	}
 	return R, S, V, nil
 }
